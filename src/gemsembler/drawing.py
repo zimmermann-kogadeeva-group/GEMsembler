@@ -542,7 +542,7 @@ def draw_one_known_pathway(
                     r_id, colname_pro[1], color=not_f_col, font_color="black",
                 )
     pyvis_graph = get_pyvis_from_nx(g, directed, size, wid, hei)
-    pyvis_graph.write_html(output_name, notebook=False)
+    pyvis_graph.write_html(output_name.as_posix(), notebook=False)
     return g
 
 
