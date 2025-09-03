@@ -1,7 +1,4 @@
-import json
 from importlib.resources import files
-
-import pandas as pd
 
 from . import data
 from .anticreation import get_model_of_interest, get_models_with_all_confidence_levels

@@ -4,16 +4,23 @@ import sys
 
 import yaml
 
+from .__init__ import __version__
 from .gathering import load_sbml_model
 from .pathsfinding import pathsfinding
 from .quickdiff import quickdiff
 
 
 def pathsfinding_cli(args):
-    parser = argparse.ArgumentParser("pathsfinding")
-    parser.add_argument("path_to_model")
-    parser.add_argument("path_to_config")
-    parser.add_argument("output_dir")
+    desc = (
+        "gemsembler will use metquest package to find a path "
+        "between given metabolites in the metabolic network"
+    )
+    parser = argparse.ArgumentParser("pathsfinding", description=desc)
+    parser.add_argument("path_to_model", help="Path to the model.")
+    parser.add_argument(
+        "path_to_config", help="Path to yaml configuration file for metquest."
+    )
+    parser.add_argument("output_dir", help="Output directory.")
 
     args = parser.parse_args(args)
 
@@ -24,8 +31,8 @@ def pathsfinding_cli(args):
 
 
 def quickdiff_cli(args):
-
-    parser = argparse.ArgumentParser("quickdiff")
+    desc = "Quick comparison between two cobrapy models."
+    parser = argparse.ArgumentParser("quickdiff", description=desc)
 
     parser.add_argument("model1", help="Path to first model")
     parser.add_argument("model2", help="Path to second model")
@@ -49,9 +56,23 @@ def quickdiff_cli(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="gemsembler")
+    desc = (
+        "CLI interface for gemsembler."
+        "To get more information on each subcommand, type `gemsembler <subcommand> -h`"
+        "1. gemsembler can run metquest to find paths within the metabolic network"
+        "2. gemsembler can compare two cobrapy models with quickdiff subcommand"
+    )
+
+    parser = argparse.ArgumentParser(prog="gemsembler", description=desc)
 
     parser.add_argument("command", choices=["pathsfinding", "quickdiff"])
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=__version__,
+        help="Show version number",
+    )
     # parse_args defaults to [1:] for args, but you need to
     # exclude the rest of the args too, or validation will fail
     args = parser.parse_args(sys.argv[1:2])
