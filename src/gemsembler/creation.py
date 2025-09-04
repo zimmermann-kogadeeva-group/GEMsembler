@@ -126,12 +126,12 @@ class KnowledgeConnectingOldNew:
 
 
 class NewElement:
-    """ New object class - one metabolite or reaction for supermodel. """
+    """New object class - one metabolite or reaction for supermodel."""
 
     def __init__(
         self,
         is_loading,
-        args_dict  # structure: {"Type": "NameOfClass", "args":{"new_ids":......}}
+        args_dict,  # structure: {"Type": "NameOfClass", "args":{"new_ids":......}}
         #       new_id: str, # Old input
         #       old_id: str,#
         #       compartments: [str],
@@ -196,7 +196,10 @@ class NewElement:
         return f"{tag}{self.id}"
 
     def _update_new_element(
-        self, id_to_update: str, compart_to_update: [str], source: str,
+        self,
+        id_to_update: str,
+        compart_to_update: [str],
+        source: str,
     ):
         self.sources.update({source: self.sources.get(source) + 1})
         if source not in self.in_models["models_list"]:
@@ -215,7 +218,7 @@ class NewMetabolite(NewElement):
     def __init__(
         self,
         is_loading,
-        args_dict
+        args_dict,
         # structure: {"type": "NewMetaboliteOrReaction", "args":{"new_ids": , "old_id": , "compartments": , "source": , "possible_sources", "converted": , "db_info": }}
         #        new_id: str, # Old input
         #        old_id: str,
@@ -257,13 +260,20 @@ class NewMetabolite(NewElement):
 
         # else: initial init
         if args["converted"]:
-            all_comp_bigg = "".join(
-                list(set([i[-1] for i in args["db_info"]["bigg_id"].to_list()]))
+            all_comp_bigg = (
+                args["db_info"].bigg_id.str.slice(-1).drop_duplicates().pipe("".join)
             )
 
             # Get specific row from db_info table
             id_noc = re.sub(f"_([{all_comp_bigg}])$", "", args["new_id"])
             row = args["db_info"].query(f"universal_bigg_id == '{id_noc}'")
+
+            if row.empty:
+                raise RuntimeError(
+                    f"Issue with `{id_noc}` "
+                    "(ID with compartment: {args['new_id']}) "
+                    "- not found in the table."
+                )
 
             # Get additional attributes from db_info table if present
             name = row.name.iloc[0] if "name" in row else None
@@ -396,7 +406,7 @@ class NewReaction(NewElement):
     def __init__(
         self,
         is_loading,
-        args_dict
+        args_dict,
         # structure: {"type": "NewMetaboliteOrReaction", "args":{"new_ids": , "old_id": , "compartments": , "source": , "possible_sources", "converted": , "db_info": }}
         #        new_id: str,  # Old input
         #        old_id: str,
@@ -761,7 +771,10 @@ class NewReaction(NewElement):
         return out_met
 
     def _find_reactants_products(
-        self, connections: KnowledgeConnectingOldNew, m_type: str, do_notconv=False,
+        self,
+        connections: KnowledgeConnectingOldNew,
+        m_type: str,
+        do_notconv=False,
     ):
         for model_id in self.sources.keys():
             old_react = connections.get_old_rs(model_id, self.id, do_notconv)
@@ -786,7 +799,10 @@ class NewReaction(NewElement):
                     getattr(self, m_type).get(model_id).append(m)
             elif model_has_periplasmic_changes & (not reaction_has_periplasmic_changes):
                 met_for_not_p_r = self.__sel_met_from_p_model_for_not_p_r(
-                    old_react_react_prod, model_id, connections, do_notconv,
+                    old_react_react_prod,
+                    model_id,
+                    connections,
+                    do_notconv,
                 )
                 for m in met_for_not_p_r.keys():
                     getattr(self, m_type).get(model_id).append(m)
@@ -858,7 +874,9 @@ class NewReaction(NewElement):
                             )
 
     def _find_gene_and_gpr(
-        self, connections: KnowledgeConnectingOldNew, do_notconv=False,
+        self,
+        connections: KnowledgeConnectingOldNew,
+        do_notconv=False,
     ):
         genes_to_add = defaultdict(list)
         for model_id in self.in_models["models_list"]:
@@ -889,8 +907,8 @@ class NewReaction(NewElement):
 
 
 class SetofNewElements:
-    """ Setting dictionaries for all metabolites or reactions:
-    selected for supermodel - self.assembly and not selected - self.notconverted. """
+    """Setting dictionaries for all metabolites or reactions:
+    selected for supermodel - self.assembly and not selected - self.notconverted."""
 
     def __add_new_elements(
         self,
@@ -963,7 +981,7 @@ class SetofNewElements:
         is_loading: bool,
         args_dict,
         # structure: {"type": "SetofNewElements", "args": {"element_type": , "selected": ,  "not_selected": ,  "model_ids": ,  "db_info": ,  "do_mix_conv_notconv": }}
-        additional=None
+        additional=None,
         #        element_type: str, # Old input
         #        selected: dict,
         #        not_selected: dict,
@@ -1147,8 +1165,9 @@ class SetofNewElements:
         additional=None,
         not_selected=None,
     ):
-        """ Creating dictionaries linking metabolites/reactions:
-            NewObject in supermodel with old original ID and OldObject in original models with new ID in supermodel """
+        """Creating dictionaries linking metabolites/reactions:
+        NewObject in supermodel with old original ID and OldObject in original models with new ID in supermodel
+        """
         go_old_new = defaultdict(dict)
         go_new_old = defaultdict(dict)
         go_old_new_notconv = defaultdict(dict)
@@ -1192,7 +1211,7 @@ class NewGene(object):
     def __init__(
         self,
         is_loading,
-        args_dict
+        args_dict,
         # structure: {"type": "NewGene", "args":{"new_id": , "old_id": , "source": , "possible_sources", "converted": }}
         #        new_id: str, # Old input
         #        old_id: str,
@@ -1337,7 +1356,7 @@ class NewGene(object):
 
 
 class SetofNewGenes(object):
-    """ Setting dictionaries for all genes selected for supermodel - self.converted and not selected - self.notconverted. """
+    """Setting dictionaries for all genes selected for supermodel - self.converted and not selected - self.notconverted."""
 
     def __addNewGenes_conv(
         self,
@@ -1609,9 +1628,9 @@ class SetofNewGenes(object):
 
 
 class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic metabolites for models without periplasmic compartments
-    """ Supermodel class with metabolites and reactions. Sources - names of original models used to create supermodel.
+    """Supermodel class with metabolites and reactions. Sources - names of original models used to create supermodel.
     Creating connections between metabolites and reaction via dictionaries with sources as keys and links to
-    reactants/products/reactions as values.  """
+    reactants/products/reactions as values."""
 
     def __find_connections(
         self,
@@ -1835,7 +1854,7 @@ class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic 
     def __init__(
         self,
         is_loading,
-        args_dict
+        args_dict,
         # structure: {"type": "SuperModel", "args":{"final_m_sel": , "final_m_not_sel": , "final_r_sel": , "final_r_not_sel": , "all_models_data": ,"additional_periplasmic_m": , "periplasmic_r": , "m_db_info": , "r_db_info": , "gene_folder": , "do_old_genes":, "do_mix_conv_notconv": , "and_as_solid": }}
         #        final_m_sel: dict, # Old input
         #        final_m_not_sel: dict,
@@ -1986,7 +2005,9 @@ class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic 
                     final_r_sel[model_id] | final_r_not_sel[model_id]
                 )
             r_connection_dicts = self.reactions._makeForwardBackward(
-                all_models_data, final_r_all, "reactions",
+                all_models_data,
+                final_r_all,
+                "reactions",
             )
         else:
             m_connection_dicts = self.metabolites._makeForwardBackward(
@@ -2008,7 +2029,9 @@ class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic 
             do_old_genes,
         )
         self.__find_connections(
-            connection_knowledge, all_models_data, do_mix_conv_notconv,
+            connection_knowledge,
+            all_models_data,
+            do_mix_conv_notconv,
         )
         print("Finalizing supermodel attributes")
         self.__get_additional_attributes(
@@ -2104,7 +2127,7 @@ class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic 
                 print(f"Results are saved in 'comparison' attribute as {name}")
 
     def get_venn_segments(self, short_name_len=None, and_as_solid=False):
-        """ Getting metabolites and reactions networks for each Venn segment in Venn
+        """Getting metabolites and reactions networks for each Venn segment in Venn
         diagram."""
         if short_name_len is None:
             short_name_len = self.get_short_name_len()
