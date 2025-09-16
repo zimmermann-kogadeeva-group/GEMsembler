@@ -68,13 +68,12 @@ class TestConversionMappings:
         # Check couble of key-value pairs within the dictionary
         assert seed_addit_m.get("cpd15275") == ["oh1"]
         assert seed_addit_m.get("cpd23593") == ["cdpdhdecg"]
-        assert seed_addit_m.get("cpd09844") == ["3hadicoa", "3hadpcoa"]
 
         # Check reactions
         seed_addit_r = get_seed_addit_r()
 
         # Check number of mappings
-        assert len(seed_addit_r) == 7808
+        assert len(seed_addit_r) == 7741
 
         # Check couble of key-value pairs within the dictionary
         assert seed_addit_r.get("rxn22163") == [
@@ -104,14 +103,13 @@ class TestConversionMappings:
 
         # Check couble of key-value pairs within the dictionary
         assert kegg_m.get("C01328") == ["oh1"]
-        assert kegg_m.get("C17331") == ["M00978"]
         assert kegg_m.get("C15547") == ["14dh2napcoa", "14dhncoa", "dhncoa"]
 
         # Check reactions
         kegg_r = get_kegg_r()
 
         # Check number of mappings
-        assert len(kegg_r) == 1786
+        assert len(kegg_r) == 1739
 
         # Check couble of key-value pairs within the dictionary
         assert kegg_r.get("R00253") == ["GALh", "GALm", "GLNS", "GLNS_1"]

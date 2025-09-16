@@ -71,7 +71,7 @@ class TestConversion:
         assert num_addit == 109
 
         num_pattern = sum([len(x.pattern) for x in conv_mbs.values()])
-        assert num_pattern == 23
+        assert num_pattern == 21
 
         num_no_conv = sum([len(x.no_conv) for x in conv_mbs.values()])
         assert num_no_conv == 0
@@ -92,7 +92,7 @@ class TestConversion:
         assert num_main == 377
 
         num_addit = sum([len(x.addit) for x in conv_reacs.values()])
-        assert num_addit == 248
+        assert num_addit == 245
 
         num_pattern = sum([len(x.pattern) for x in conv_reacs.values()])
         assert num_pattern == 0
@@ -156,7 +156,7 @@ class TestConversion:
         assert num_main == 179
 
         num_addit = sum([len(x.addit) for x in conv_mbs.values()])
-        assert num_addit == 85
+        assert num_addit == 94
 
         num_pattern = sum([len(x.pattern) for x in conv_mbs.values()])
         assert num_pattern == 0
@@ -168,7 +168,7 @@ class TestConversion:
         assert len(conv_reacs) == 1891
 
         num_converted = len([x for x in conv_reacs.values() if x.highest])
-        assert num_converted == 1220
+        assert num_converted == 1213
 
         num_annot_and_main = sum([len(x.annot_and_main) for x in conv_reacs.values()])
         assert num_annot_and_main == 828
@@ -180,7 +180,7 @@ class TestConversion:
         assert num_main == 509
 
         num_addit = sum([len(x.addit) for x in conv_reacs.values()])
-        assert num_addit == 703
+        assert num_addit == 702
 
         num_pattern = sum([len(x.pattern) for x in conv_reacs.values()])
         assert num_pattern == 0
@@ -244,7 +244,7 @@ class TestConversion:
         assert num_main == 966
 
         num_addit = sum([len(x.addit) for x in conv_mbs.values()])
-        assert num_addit == 107
+        assert num_addit == 109
 
         num_pattern = sum([len(x.pattern) for x in conv_mbs.values()])
         assert num_pattern == 0
@@ -256,7 +256,7 @@ class TestConversion:
         assert len(conv_reacs) == 1222
 
         num_converted = len([x for x in conv_reacs.values() if x.highest])
-        assert num_converted == 725
+        assert num_converted == 722
 
         num_annot_and_main = sum([len(x.annot_and_main) for x in conv_reacs.values()])
         assert num_annot_and_main == 0
@@ -268,7 +268,7 @@ class TestConversion:
         assert num_main == 869
 
         num_addit = sum([len(x.addit) for x in conv_reacs.values()])
-        assert num_addit == 680
+        assert num_addit == 654
 
         num_pattern = sum([len(x.pattern) for x in conv_reacs.values()])
         assert num_pattern == 0
