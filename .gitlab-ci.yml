@@ -49,7 +49,7 @@ pages:
   image: python:3.12
   stage: build
   script:
-  - pip install -U sphinx nbsphinx
+  - pip install -U sphinx nbsphinx sphinx-autoapi
   - apt update && apt install -y pandoc
   - sphinx-build -b html docs public
   artifacts:
