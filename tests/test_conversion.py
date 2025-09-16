@@ -68,7 +68,7 @@ class TestConversion:
         assert num_main == 5
 
         num_addit = sum([len(x.addit) for x in conv_mbs.values()])
-        assert num_addit == 102
+        assert num_addit == 109
 
         num_pattern = sum([len(x.pattern) for x in conv_mbs.values()])
         assert num_pattern == 23
@@ -144,7 +144,7 @@ class TestConversion:
         assert len(conv_mbs) == 1520
 
         num_converted = len([x for x in conv_mbs.values() if x.highest])
-        assert num_converted == 1216
+        assert num_converted == 1219
 
         num_annot_and_main = sum([len(x.annot_and_main) for x in conv_mbs.values()])
         assert num_annot_and_main == 1002
@@ -232,7 +232,7 @@ class TestConversion:
         assert len(conv_mbs) == 1332
 
         num_converted = len([x for x in conv_mbs.values() if x.highest])
-        assert num_converted == 966
+        assert num_converted == 969
 
         num_annot_and_main = sum([len(x.annot_and_main) for x in conv_mbs.values()])
         assert num_annot_and_main == 0

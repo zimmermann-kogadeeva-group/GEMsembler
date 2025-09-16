@@ -63,7 +63,7 @@ class TestConversionMappings:
         seed_addit_m = get_seed_addit_m()
 
         # Check number of mappings
-        assert len(seed_addit_m) == 2890
+        assert len(seed_addit_m) == 2910
 
         # Check couble of key-value pairs within the dictionary
         assert seed_addit_m.get("cpd15275") == ["oh1"]
@@ -100,7 +100,7 @@ class TestConversionMappings:
         kegg_m = get_kegg_m()
 
         # Check number of mappings
-        assert len(kegg_m) == 2151
+        assert len(kegg_m) == 2160
 
         # Check couble of key-value pairs within the dictionary
         assert kegg_m.get("C01328") == ["oh1"]

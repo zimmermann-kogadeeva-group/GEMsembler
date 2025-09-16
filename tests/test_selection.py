@@ -21,8 +21,8 @@ class TestSelection:
         assert sel_mb.compartments == ["c"]
         assert sel_mb.consistent == "Yes"
         assert sel_mb.highest_consistent == ["10fthf_c"]
-        assert sel_mb.from_one_id == True
-        assert sel_mb.to_one_id == True
+        assert sel_mb.from_one_id is True
+        assert sel_mb.to_one_id is True
         assert sel_mb.from_many_other_ids == []
         assert sel_mb.in_other_models == {}
 
@@ -31,8 +31,8 @@ class TestSelection:
         assert sel_mb.compartments == ["c"]
         assert sel_mb.consistent == "Yes"
         assert sel_mb.highest_consistent == ["gam1p_c"]
-        assert sel_mb.from_one_id == True
-        assert sel_mb.to_one_id == True
+        assert sel_mb.from_one_id is True
+        assert sel_mb.to_one_id is True
         assert sel_mb.from_many_other_ids == []
         assert sel_mb.in_other_models == {}
 
@@ -41,9 +41,9 @@ class TestSelection:
         assert sel_mb.compartments == ["c"]
         assert sel_mb.consistent == "Not converted"
         assert sel_mb.highest_consistent == []
-        assert sel_mb.from_one_id == False
-        assert sel_mb.to_one_id == None
-        assert len(sel_mb.from_many_other_ids) == 357
+        assert sel_mb.from_one_id is False
+        assert sel_mb.to_one_id is None
+        assert len(sel_mb.from_many_other_ids) == 355
         assert sel_mb.in_other_models == {}
 
         # Check individual metabolite from gapseq model
@@ -51,7 +51,7 @@ class TestSelection:
         assert sel_mb.compartments == ["c"]
         assert sel_mb.consistent == "Yes"
         assert sel_mb.highest_consistent == ["tpalm2eACP_c"]
-        assert sel_mb.from_one_id == True
-        assert sel_mb.to_one_id == True
+        assert sel_mb.from_one_id is True
+        assert sel_mb.to_one_id is True
         assert sel_mb.from_many_other_ids == []
         assert sel_mb.in_other_models == {"modelseed_BU": [True, True]}
