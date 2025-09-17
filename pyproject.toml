@@ -29,7 +29,7 @@ dependencies = [
     "numpy",
     "scipy",
     "networkx",
-    "pandas>=2.0",
+    "pandas>=2.1",
     "pyarrow",
     "seaborn",
     "pyvis",
