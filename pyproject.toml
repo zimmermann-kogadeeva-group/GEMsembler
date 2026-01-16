@@ -35,8 +35,7 @@ dependencies = [
     "pyvis",
     "h5py",
     "platformdirs",
-    "pyyaml",
-    "scipy<=1.14" #TODO Temrprory solution for clustering issue, check why in 1.15 looks different
+    "pyyaml"
 ]
 
 [project.scripts]

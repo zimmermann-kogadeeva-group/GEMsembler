@@ -36,6 +36,12 @@ pytest312:
   script:
     - tox run -e py312 -- --junitxml=report.xml 
 
+pytest313:
+  extends: .pytest
+  image: python:3.13
+  script:
+    - tox run -e py313 -- --junitxml=report.xml 
+
 build:
   image: python:3.12
   stage: build
