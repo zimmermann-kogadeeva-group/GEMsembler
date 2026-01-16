@@ -46,7 +46,7 @@ pytest314:
   extends: .pytest
   image: python:3.14
   script:
-    - apt update && apt install libglpk-dev swig gcc
+    - apt update && apt install -y libglpk-dev swig gcc
     - tox run -e py314 -- --junitxml=report.xml 
 
 build:
