@@ -684,7 +684,7 @@ class GatheredModels:
 
         # Populate the internal data
         self.__models[model_id] = {
-            "original_model": deepcopy(model),
+            "original_model": model,
             "path_to_model": path_to_model,
             "model_type": model_type,
             "path_to_genome": path_to_genome,
