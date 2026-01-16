@@ -42,22 +42,19 @@ from .structural import runStructuralConversion, runSuggestionsMet
 
 def add_charge_mass_info(df_mbs):
     with open(files(data) / "masses_and_charges.json") as fh:
-        df_bigg_extra = (
-            pd.DataFrame(
-                [
-                    (bigg_id, *x)
-                    for bigg_id, info in json.load(fh).items() if info is not None
-                    for x in zip(info["formula"], info["mass"], info["charges"])
-                    if x[1] is not None  # some formulas are not valid i.e. contain R, X or Z
-                ],
-                columns=["universal_bigg_id", "formula", "mass", "charge"]
-            )
-            .drop_duplicates(subset="universal_bigg_id", keep="first")
-        )
-    return (
-        df_mbs
-        .merge(df_bigg_extra, on="universal_bigg_id", how="left")
-        .assign(formula=lambda x: x.formula.fillna(""))
+        df_bigg_extra = pd.DataFrame(
+            [
+                (bigg_id, *x)
+                for bigg_id, info in json.load(fh).items()
+                if info is not None
+                for x in zip(info["formula"], info["mass"], info["charges"])
+                if x[1]
+                is not None  # some formulas are not valid i.e. contain R, X or Z
+            ],
+            columns=["universal_bigg_id", "formula", "mass", "charge"],
+        ).drop_duplicates(subset="universal_bigg_id", keep="first")
+    return df_mbs.merge(df_bigg_extra, on="universal_bigg_id", how="left").assign(
+        formula=lambda x: x.formula.fillna("")
     )
 
 
@@ -177,7 +174,8 @@ class GatheredModels:
             "metanetx": {
                 "remove_b": False,
                 "db_name": "bigg",
-                "wo_periplasmic": ConvMetanetx(),
+                "wo_periplasmic": False,  # TODO: need to check this
+                "conv_strategy": ConvMetanetx(),
                 "genome_model_strategy": get_genes_not_gapseq,
                 "alter_notconv_m": no_changes_for_notconv,
                 "alter_notconv_r": no_changes_for_notconv,
