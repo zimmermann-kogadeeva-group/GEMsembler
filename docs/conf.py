@@ -9,7 +9,7 @@
 project = "GEMsembler"
 copyright = "2025, Elena Matveishina, Bartosz Bartmanski"
 author = "Elena Matveishina, Bartosz Bartmanski"
-release = "0.11.11"
+release = "0.11.12"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
