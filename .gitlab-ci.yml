@@ -3,7 +3,7 @@ stages:
   - build
 
 .pytest:
-  image: python:3.10
+  image: python:3.12
   stage: test
   before_script:
     - python3 -m pip install tox
@@ -46,6 +46,7 @@ pytest314:
   extends: .pytest
   image: python:3.14
   script:
+    - apt update && apt install libglpk-dev swig gcc
     - tox run -e py314 -- --junitxml=report.xml 
 
 build:
