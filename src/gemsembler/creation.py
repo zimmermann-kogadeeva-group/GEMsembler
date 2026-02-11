@@ -611,7 +611,7 @@ class NewReaction(NewElement):
                     json_dict_out["products"][c_key].append(f"{l._get_replace_tag()}")
                 continue
             elif c_key == "comparison":
-                json_dict_out["genes"][c_key] = {}
+                json_dict_out["products"][c_key] = {}
             elif type(c_val) is dict:
                 raise Warning(f"Should not b dict {c_val} for {c_key}")
                 # json_dict_out["products"][c_key] = {}
