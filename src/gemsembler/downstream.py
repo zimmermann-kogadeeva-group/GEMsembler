@@ -148,7 +148,9 @@ def write_metabolites_production_output(
         )
     else:
         out_bp_production_tab.to_csv(
-            table_file_name, sep="\t", index=False,
+            table_file_name,
+            sep="\t",
+            index=False,
         )
     if len(out_bp_production_tab.columns) <= 3:
         return []
@@ -199,9 +201,7 @@ def write_metabolites_production_output(
         )
         column_order = clust_df.columns[leaves_list(jt)]
 
-    df_plot = clust_df.loc[
-        row_order, column_order
-    ]
+    df_plot = clust_df.loc[row_order, column_order]
 
     if fig_width is None:
         fig_width = 0.55 * len(column_order)
@@ -269,7 +269,7 @@ def table_reactions_confidence(
     If pathway can be focused around one metabolite of interest, additional column:
         Distance from "met X" - how many reactions away is the reaction from metabolite of intererst
     If it is convenient to consider all input models (supormodel.sourcers) separately,
-    additional columns for each input model ID  
+    additional columns for each input model ID
     """
 
     if pathway_r is None:
@@ -684,7 +684,10 @@ def biomass(
     g = nx.DiGraph()
     biomass_r = supermodel.reactions.assembly.get("Biomass")
     colname_r = define_node_features(
-        color_brewer, "single_path_r", biomass_r, n_letter,
+        color_brewer,
+        "single_path_r",
+        biomass_r,
+        n_letter,
     )
     g.add_node(
         colname_r[0],
@@ -726,7 +729,11 @@ def biomass(
             )
             for e in rea_edge:
                 g.add_edge(
-                    e[0], e[1], color=e[2], font_color="black", title=e[3],
+                    e[0],
+                    e[1],
+                    color=e[2],
+                    font_color="black",
+                    title=e[3],
                 )
             if write_table_to_file is not None:
                 output["Metabolite"].append(colname_rea[0])
@@ -783,7 +790,11 @@ def biomass(
             )
             for e in pro_edge:
                 g.add_edge(
-                    e[0], e[1], color=e[2], font_color="black", title=e[3],
+                    e[0],
+                    e[1],
+                    color=e[2],
+                    font_color="black",
+                    title=e[3],
                 )
             if write_table_to_file is not None:
                 output["Metabolite"].append(colname_pro[0])
@@ -1207,7 +1218,9 @@ def _write_pfba_mq_results(
         confidence_paths_tab = pd.DataFrame(confidence_paths)
         if confidence_table is not None:
             confidence_paths_tab.to_csv(
-                f"{confidence_table}", index=False, sep="\t",
+                f"{confidence_table}",
+                index=False,
+                sep="\t",
             )
         else:
             confidence_paths_tab.to_csv(
@@ -1226,7 +1239,10 @@ def _write_pfba_mq_results(
                 legend_out=True,
             )
             .map_dataframe(
-                custom_histplot, y="Metabolite synthesis", hue="Confidence", **kwargs,
+                custom_histplot,
+                y="Metabolite synthesis",
+                hue="Confidence",
+                **kwargs,
             )
             .set_titles(col_template="{col_name}")
             .set(
@@ -1343,7 +1359,7 @@ def run_growth_full_flux_analysis(
     else:
         met_order = production_plots[1]
     if stat_file is None:
-        stat_file = output_folder + "/production_confidence_stat.tsv"
+        stat_file = f"{output_folder}/production_confidence_stat.tsv"
     stat_out_tab.to_csv(stat_file, sep="\t", index=False)
     if draw_pfba or table_pfba or draw_confidence:
         if model_to_further_analyse is None:
@@ -1532,7 +1548,7 @@ def run_metquest_results_analysis(
         met_order = production_plots[1]
         column_order = production_plots[2]
     if stat_file is None:
-        stat_file = output_folder + "/production_confidence_stat.tsv"
+        stat_file = f"{output_folder}/production_confidence_stat.tsv"
     stat_out_tab.to_csv(stat_file, sep="\t", index=False)
     if draw_mq_path or table_mq_path or draw_confidence:
         production_plots = production_plots + _write_pfba_mq_results(
