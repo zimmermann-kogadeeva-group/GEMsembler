@@ -276,7 +276,7 @@ def draw_notconv_biomass(
         g.add_edge(biomass_r.id, p, font_color="black")
 
     pyvis_graph = get_pyvis_from_nx(g, directed, size, wid, hei)
-    pyvis_graph.write_html(output_name, notebook=False)
+    pyvis_graph.write_html(str(output_name), notebook=False)
     return g
 
 
@@ -787,5 +787,5 @@ def draw_one_synt_path(
                 font_color="black",
             )
     pyvis_graph = get_pyvis_from_nx(g, directed, size, wid, hei)
-    pyvis_graph.write_html(output_name, notebook=False)
+    pyvis_graph.write_html(str(output_name), notebook=False)
     return g
