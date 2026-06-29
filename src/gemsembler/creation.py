@@ -2163,7 +2163,7 @@ class SuperModel:  # TODO REAL 30.08.23 add transport reactions for periplasmic 
     #             dill.dump(self, fh)
 
     def write_supermodel_to_json(self, output_name: str):  # GGE
-        if not output_name.endswith(".json"):
+        if not str(output_name).endswith(".json"):
             raise ValueError("Wrong extension of the file")
         else:
             json_model_string = self._to_json()
