@@ -241,9 +241,11 @@ def draw_notconv_biomass(
     hei=1080,
     size=25,
 ):
-    if not output_name.endswith(".html"):
+    output_name = Path(output_name)
+    output_name.parent.mkdir(parents=True, exist_ok=True)
+    if output_name.suffix != ".html":
         raise ValueError(
-            "Output file for the plot is of wrong format. Please use html file name."
+            f"Expected html suffix, got: {output_name.suffix}. Path given {output_name}"
         )
     if n_letter is None:
         n_letter = supermodel.get_short_name_len()
@@ -601,9 +603,11 @@ def draw_one_synt_path(
     hei=1080,
     size=25,
 ):
-    if not output_name.endswith(".html"):
+    output_name = Path(output_name)
+    output_name.parent.mkdir(parents=True, exist_ok=True)
+    if output_name.suffix != ".html":
         raise ValueError(
-            "Output file for the plot is of wrong format. Please use html file name."
+            f"Expected html suffix, got: {output_name.suffix}. Path given {output_name}"
         )
     if met_not_int is None:
         met_not_int = deepcopy(MET_NOT_INT_GLOBAL)
